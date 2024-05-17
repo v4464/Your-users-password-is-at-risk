@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Our Site</title>
+</head>
+<body>
+    <h1>Welcome to Our Site</h1>
+
+    <!-- Signup Form -->
+    <h2>Sign Up</h2>
+    <form id="signupForm">
+        <label for="signupName">Name:</label><br>
+        <input type="text" id="signupName" name="signupName"><br>
+        <label for="signupEmail">Email:</label><br>
+        <input type="email" id="signupEmail" name="signupEmail"><br>
+        <label for="signupPassword">Password:</label><br>
+        <input type="password" id="signupPassword" name="signupPassword"><br>
+        <button type="submit">Sign Up</button>
+    </form>
+
+    <!-- Login Form -->
+    <div id="loginSection" style="display:none;">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <label for="loginEmail">Email:</label><br>
+            <input type="email" id="loginEmail" name="loginEmail"><br>
+            <label for="loginPassword">Password:</label><br>
+            <input type="password" id="loginPassword" name="loginPassword"><br>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+    <!-- Button to toggle between Signup and Login sections -->
+    <button onclick="toggleLogin()">Already a user? Login</button>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        function toggleLogin() {
+            const loginSection = document.getElementById('loginSection');
+            if (loginSection.style.display === 'none') {
+                loginSection.style.display = 'block';
+            } else {
+                loginSection.style.display = 'none';
+            }
+        }
+
+        // Signup Form Submission
+        const signupForm = document.getElementById('signupForm');
+        signupForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+
+            try {
+                const response = await axios.post('/signup', { name, email, password });
+                alert(response.data);
+            } catch (error) {
+                alert(error.response.data);
+            }
+        });
+
+        // Login Form Submission
+        const loginForm = document.getElementById('loginForm');
+        loginForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            try {
+                const response = await axios.post('/login', { email, password });
+                alert(response.data);
+            } catch (error) {
+                alert(error.response.data);
+            }
+        });
+    </script>
+</body>
+</html>
